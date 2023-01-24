@@ -11,11 +11,6 @@ jobs:
         uses: actions/checkout@v2
       - name: build docker image
         run: docker build -t myimage .
-  result:
-    needs: build
-    runs-on: windoes-latest
-    steps:
-      - name: Print message
-        run: echo "success"
-      
+
+    
     
