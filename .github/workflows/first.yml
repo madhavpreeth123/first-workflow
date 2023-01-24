@@ -1,18 +1,21 @@
-name: Build and push Docker container
+name: Build and push Docker image
 on:
   push:
     branches:
       - main
 jobs:
   build-and-push:
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     steps:
     - name: Checkout code
       uses: actions/checkout@v2
-    - name: Build the Docker container
+    - name: Set up Docker
       run: |
-        docker build -t mycontainer .
-    - name: Push the Docker container
+        choco install docker-desktop -y
+        docker login -u "${{ secrets.DOCKER_HUB_USERNAME }}" -p "${{ secrets.DOCKER_HUB_ACCESS_KEY }}"
+    - name: Build the Docker image
       run: |
-        echo "${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}" | docker login -u "${{ secrets.DOCKER_HUB_USERNAME }}" --password-stdin
-        docker push mycontainer
+        docker build -t madhavpreeth123/myimage .
+    - name: Push the Docker image
+      run: |
+        docker push madhavpreeth123/myimage
