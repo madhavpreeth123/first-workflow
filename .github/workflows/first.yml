@@ -1,9 +1,21 @@
-name: first-workflow
-on: workflow_dispatch
+name: Dockerimage
+on:
+  push:
+    branches:
+      - main
 jobs:
-  first-job:
+  build:
     runs-on: windows-latest
     steps:
-    - name: Print Greetings
-      run: echo "hello world"
+      - name: uses code
+        uses: actions/checkout@v2
+      - name: build docker image
+        run: docker build -t myimage .
+  result:
+    needs: build
+    runs-on: windoes-latest
+    steps:
+      - name: Print message
+        run: echo "success"
+      
     
